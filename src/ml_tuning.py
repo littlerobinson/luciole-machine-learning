@@ -8,6 +8,18 @@ from sklearn.preprocessing import  OneHotEncoder, StandardScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.metrics import r2_score
 
+def get_high_correlations(X, corr_percentage = 0.5):
+    corr = X.corr()
+
+    high_corr_list = []
+    cols = corr.columns
+
+    for j in cols:
+        for i, item in corr[j].items():
+            if (i!=j) and abs(item) > corr_percentage:
+                high_corr_list.append((i,j, f"{round(abs(item)*100, 2)} %"))
+    return high_corr_list
+
 def test_models(models, data, target_name, numeric_features = [], categorical_features = [], test_size = 0.2, iterations = 50):
     """
     Return a dict with r2 score for train and test for a list of models
