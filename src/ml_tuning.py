@@ -20,7 +20,7 @@ def get_high_correlations(X, corr_percentage = 0.5):
                 high_corr_list.append((i,j, f"{round(abs(item)*100, 2)} %"))
     return high_corr_list
 
-def test_models(models, data, target_name, numeric_features = [], categorical_features = [], test_size = 0.2, iterations = 50):
+def test_regressor_models(models, data, target_name, numeric_features = [], categorical_features = [], test_size = 0.2, iterations = 50):
     """
     Return a dict with r2 score for train and test for a list of models
     Example of results value:
