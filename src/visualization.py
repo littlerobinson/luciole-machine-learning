@@ -1,6 +1,11 @@
-from matplotlib import pyplot as plt
-from sklearn.metrics import PrecisionRecallDisplay, RocCurveDisplay
+import numpy as np
+import pandas as pd
 
+from sklearn.metrics import PrecisionRecallDisplay, RocCurveDisplay
+from sklearn.neighbors import NearestNeighbors
+
+from matplotlib import pyplot as plt
+import plotly.express as px
 
 def draw_roc_an_recall_curve(model, X_train, y_train, X_test, y_test):
     # Créer deux sous-graphes côte à côte
@@ -26,3 +31,27 @@ def draw_roc_an_recall_curve(model, X_train, y_train, X_test, y_test):
 
     # Afficher la figure
     plt.show()
+
+
+def get_kneighbors_distances(X, n_neighbors=20):
+    # Suppose X is already defined
+    nn = NearestNeighbors(n_neighbors=n_neighbors, n_jobs=-1).fit(X)
+    distances, indices = nn.kneighbors(X)
+
+    distances = np.sort(distances, axis=0)
+    distances = distances[:, 1]
+
+    # Créer un DataFrame pour PlotlyXGBClassifier
+    df = pd.DataFrame({
+        'index': range(len(distances)),
+        'distance': distances
+    })
+
+    # Créer le graphique avec Plotly Express
+    fig = px.line(df, x='index', y='distance', title='K-Nearest Neighbors Distances')
+
+    # Limiter l'axe y entre 0 et 2
+    fig.update_yaxes(range=[0, 2])
+
+    # Afficher le graphique
+    fig.show()

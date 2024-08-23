@@ -1,7 +1,12 @@
 import numpy as np
 import pandas as pd
 
+import xgboost as xgb
+
 import plotly.express as px
+
+from sklearn.datasets import load_diabetes
+
 
 def haversine(lon_1: float, lon_2: float, lat_1: float, lat_2: float):
     """
@@ -98,3 +103,19 @@ def delete_ouliers(dataset, columns=[]):
     final_mask = pd.concat(masks, axis=1).all(axis=1)
     filtered_df = dataset.loc[final_mask, :]
     return filtered_df
+
+    
+
+def test_xgb_finds_gpu(capsys):
+    """Check if XGBoost finds the GPU."""
+    dataset = load_diabetes()
+    X = dataset["data"]
+    y = dataset["target"]
+    xgb_model = xgb.XGBRegressor(
+        # If there is no GPU, the tree_method kwarg will cause either
+        # - an error in `xgb_model.fit(X, y)` (seen with pytest) or
+        # - a warning printed to the console (seen in Spyder)
+        # It's unclear which of the two happens under what circumstances.
+        tree_method="hist"
+    )
+    xgb_model.fit(X, y)
