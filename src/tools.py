@@ -5,6 +5,8 @@ import xgboost as xgb
 
 import plotly.express as px
 
+from pympler import asizeof
+
 from sklearn.datasets import load_diabetes
 
 
@@ -119,3 +121,19 @@ def test_xgb_finds_gpu(capsys):
         tree_method="hist"
     )
     xgb_model.fit(X, y)
+
+
+def get_size_in_mb(obj):
+    """
+    Calcule la taille d'un objet en mémoire en mégaoctets (Mo) en utilisant pympler.
+
+    Paramètres :
+    obj : L'objet dont vous souhaitez calculer la taille.
+
+    Retourne :
+    float : La taille de l'objet en Mo.
+    """
+    size_in_bytes = asizeof.asizeof(obj)
+    size_in_mb = size_in_bytes / (1024 ** 2)
+    return size_in_mb
+
