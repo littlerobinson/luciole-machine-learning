@@ -51,3 +51,30 @@ def limitgpu_ram_usage(limit=1024, gpu_indice=0):
         except RuntimeError as e:
             # Virtual devices must be set before GPUs have been initialized
             print(e)
+
+
+def set_memory_growth(value=True):
+    """
+    Description:
+    La fonction set_memory_growth permet de configurer la croissance de la mémoire pour les GPU disponibles dans un environnement TensorFlow. Cette fonction est particulièrement utile pour éviter que TensorFlow n'alloue toute la mémoire GPU dès le démarrage, ce qui peut être problématique dans des environnements multi-utilisateurs ou lorsque plusieurs processus utilisent les mêmes GPU.
+    
+    Paramètres:
+    value (bool, optionnel) : Un booléen indiquant si la croissance de la mémoire doit être activée (True) ou désactivée (False). Par défaut, la valeur est True.
+
+    Retour:
+    La fonction ne retourne rien. Elle imprime des messages pour indiquer si des GPU ont été trouvés et si la configuration de la croissance de la mémoire a été appliquée.
+
+    Exceptions:
+    RuntimeError : Si une erreur survient lors de la configuration de la croissance de la mémoire, l'exception est capturée et le message d'erreur est imprimé.
+    """
+    gpus = tf.config.experimental.list_physical_devices('GPU')
+    if gpus:
+        try:
+            for gpu in gpus:
+                tf.config.experimental.set_memory_growth(gpu, value)
+                print('find GPU', gpu)
+
+        except RuntimeError as e:
+            print(e)
+    else:
+        print("no GPU find")
