@@ -11,10 +11,10 @@ class TextProcessing:
     for further analysis, such as natural language processing (NLP).
     """
 
-    def sanitize(self, input_text):
+    def standardize(self, input_text):
         """
-        This method takes raw text as input and applies a series of transformations to clean it.
-        The cleaning steps include:
+        This method takes raw text as input and applies a series of transformations to standardize it.
+        The standardize steps include:
         1. Converting all characters to lowercase.
         2. Removing all occurrences of HTML tags'.
         3. Removing mentions (@) and hashtags (#).
@@ -32,58 +32,60 @@ class TextProcessing:
         # Remove punctuation
         sanitize_text = self.remove_punctuation(sanitize_text)
 
-    def to_lowercase(text):
+        return sanitize_text
+
+    def to_lowercase(self, text):
         """
         This function takes a text as input and returns the text with all characters converted to lowercase.
         """
         return text.lower()
 
-    def standardize_accented_chars(text):
+    def standardize_accented_chars(self, text):
         """
         This function takes a text as input and returns the text with accented characters standardized.
         """
         return unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('utf-8', 'ignore')
 
-    def strip_html(text):
+    def strip_html(self, text):
         """
         This function takes a text as input and returns the text with all HTML tags removed.
         """
         return re.sub('<[^<]+?>', '', text)
 
-    def remove_url(text):
+    def remove_url(self, text):
         """
         This function takes a text as input and returns the text with all URLs removed.
         """
         return re.sub(r'https?:\S*', '', text)
 
-    def remove_mentions_and_tags(text):
+    def remove_mentions_and_tags(self, text):
         """
         This function takes a text as input and returns the text with all mentions (@) and hashtags (#) removed.
         """
         text = re.sub(r'@\S*', '', text)
         return re.sub(r'#\S*', '', text)
 
-    def remove_special_characters(text):
+    def remove_special_characters(self, text):
         """
         This function takes a text as input and returns the text with all special characters removed.
         """
         pat = r'[^a-zA-z0-9.,!?/:;\"\'\s]'
         return re.sub(pat, '', text)
 
-    def remove_numbers(text):
+    def remove_numbers(self, text):
         """
         This function takes a text as input and returns the text with all numbers removed.
         """
         pattern = r'[^a-zA-z.,!?/:;\"\'\s]'
         return re.sub(pattern, '', text)
 
-    def remove_punctuation(text):
+    def remove_punctuation(self, text):
         """
         This function takes a text as input and returns the text with all punctuation removed.
         """
         return ' '.join([c for c in text if c not in string.punctuation])
 
-    def expand_contractions(text):
+    def expand_contractions(self, text):
         """
         This function takes a text as input and returns the text with all contractions expanded.
         """
@@ -92,7 +94,7 @@ class TextProcessing:
             expanded_words.append(contractions.fix(word))
         return ' '.join(expanded_words)
 
-    def lemmatize(text, nlp):
+    def lemmatize(self, text, nlp):
         """
         This function takes a text and a language processing object (nlp) as input and returns the text with all words lemmatized.
         """
