@@ -92,7 +92,7 @@ class TextProcessing:
         expanded_words = []
         for word in text.split():
             expanded_words.append(contractions.fix(word))
-        return ' '.join(expanded_words)
+        return ''.join(expanded_words)
 
     def lemmatize(self, text, nlp):
         """
