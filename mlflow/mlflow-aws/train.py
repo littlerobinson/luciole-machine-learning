@@ -6,8 +6,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 
 # Set env variable
-# os.environ["APP_URI"] = "https://mlflow-luciole-8a7bceaaf9b3.herokuapp.com"
-APP_URI = "https://mlflow-luciole-8a7bceaaf9b3.herokuapp.com"
+APP_URI = os.getenv("APP_URI")
 EXPERIMENT_NAME = "mlflow-sklearn-iris"
 
 # Load Iris dataset
@@ -32,7 +31,7 @@ mlflow.set_experiment(EXPERIMENT_NAME)
 # Get our experiment info
 experiment = mlflow.get_experiment_by_name(EXPERIMENT_NAME)
 
-# Call mlflow autolog
+# Call mlflow autolog to log everything by default
 mlflow.sklearn.autolog()
 
 with mlflow.start_run(experiment_id=experiment.experiment_id):
