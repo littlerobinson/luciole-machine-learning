@@ -1,12 +1,16 @@
 import os
+from dotenv import load_dotenv
 import mlflow
 import pandas as pd
 from sklearn.datasets import load_iris
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 
+# Load the environment variables
+load_dotenv()
+
 # Set env variable
-APP_URI = os.getenv("APP_URI")
+APP_URI = os.getenv("$APP_URI")
 EXPERIMENT_NAME = "mlflow-sklearn-iris"
 
 # Load Iris dataset
